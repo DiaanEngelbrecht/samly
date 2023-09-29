@@ -91,6 +91,10 @@ defmodule Samly.SPHandler do
     idp_id_in_session = get_session(conn, "idp_id")
     url_in_session = get_session(conn, "target_url")
 
+    Logger.error(
+      "Validating authresp, idp_id_in_session: #{inspect(idp_id_in_session)}, url_in_session: #{inspect(url_in_session)}, rs_in_session: #{inspect(rs_in_session)}, relay_state: #{inspect(relay_state)}"
+    )
+
     cond do
       rs_in_session == nil || rs_in_session != relay_state ->
         {:error, :invalid_relay_state}
