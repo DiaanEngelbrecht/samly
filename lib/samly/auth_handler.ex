@@ -40,6 +40,8 @@ defmodule Samly.AuthHandler do
   def initiate_sso_req(conn) do
     import Plug.CSRFProtection, only: [get_csrf_token: 0]
 
+    Logger.error("Samly: In the initial get request")
+
     target_url = conn.private[:samly_target_url] || "/"
 
     opts = [
@@ -58,6 +60,7 @@ defmodule Samly.AuthHandler do
     %IdpData{id: idp_id} = idp = conn.private[:samly_idp]
     %IdpData{esaml_idp_rec: idp_rec, esaml_sp_rec: sp_rec} = idp
     sp = ensure_sp_uris_set(sp_rec, conn)
+    Logger.error("Samly: In the post request")
 
     target_url = conn.private[:samly_target_url] || "/"
     assertion_key = get_session(conn, "samly_assertion_key")
@@ -71,6 +74,7 @@ defmodule Samly.AuthHandler do
 
         {idp_signin_url, req_xml_frag} =
           Helper.gen_idp_signin_req(sp, idp_rec, Map.get(idp, :nameid_format))
+        Logger.error("Samly: Inside the case")
 
         conn
         |> configure_session(renew: true)
