@@ -74,6 +74,7 @@ defmodule Samly.AuthHandler do
 
         {idp_signin_url, req_xml_frag} =
           Helper.gen_idp_signin_req(sp, idp_rec, Map.get(idp, :nameid_format))
+
         Logger.error("Samly: Inside the case")
 
         conn
